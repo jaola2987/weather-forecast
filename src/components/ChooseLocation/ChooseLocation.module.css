@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.inputField {
+  display: flex;
+  width: 100%;
+}
+
+.inputField select {
+  height: 40px;
+  min-width: 100%;
+  border-radius: 8px;
+}
+
+.inputField select:focus,
+.inputField select:focus-visible,
+.inputField select:active {
+  outline: none;
+}
