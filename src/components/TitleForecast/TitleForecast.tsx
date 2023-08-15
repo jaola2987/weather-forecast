@@ -9,8 +9,8 @@ export default function TitleForecast() {
       <div className={style.location}>
         {chosenCity && (
           <div>
-            Weather forecast in <span className={style.city}>{chosenCity}</span>
-            , {chosenCountry}
+            Weather forecast for{" "}
+            <span className={style.city}>{chosenCity}</span>, {chosenCountry}
           </div>
         )}
       </div>
