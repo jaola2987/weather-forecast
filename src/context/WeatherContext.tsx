@@ -13,7 +13,9 @@ import { IWeatherContextProps, RootObject } from "./weatherContext.interface";
 const WeatherContext = createContext({} as IWeatherContextProps);
 
 export const WeatherProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [currentWeather, setCurrentWeather] = useState<RootObject | null>(null);
+  const [currentWeather, setCurrentWeather] = useState<
+    RootObject | null | undefined
+  >(undefined);
   const [chosenCity, setChosenCity] = useState("");
   const [chosenCountry, setChosenCountry] = useState("");
 
