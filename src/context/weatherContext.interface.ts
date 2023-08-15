@@ -50,4 +50,6 @@ export interface IWeatherContextProps {
   currentWeather: RootObject | null;
   chosenCity: string;
   handleCity: (e: string) => void;
+  chosenCountry: string;
+  handlCountry: (e: string) => void;
 }

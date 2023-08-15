@@ -1,0 +1,14 @@
+.weatherWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  color: #16598f;
+  background-color: #f0e8e863;
+  border-radius: 8px;
+  padding: 60px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  height: 195px;
+}
