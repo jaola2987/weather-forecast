@@ -8,7 +8,12 @@ import {
   useContext,
   useCallback,
 } from "react";
-import { IWeatherContextProps, RootObject } from "./weatherContext.interface";
+import {
+  ICity,
+  IWeatherContextProps,
+  RootObject,
+} from "./weatherContext.interface";
+import { ICountry } from "../components/ChooseLocation/chooseLocation.interface";
 
 const WeatherContext = createContext({} as IWeatherContextProps);
 
@@ -16,13 +21,14 @@ export const WeatherProvider: FC<PropsWithChildren> = ({ children }) => {
   const [currentWeather, setCurrentWeather] = useState<
     RootObject | null | undefined
   >(undefined);
-  const [chosenCity, setChosenCity] = useState("");
+  const [chosenCity, setChosenCity] = useState<ICity>();
   const [chosenCountry, setChosenCountry] = useState("");
+  const [countryFullName, setCountryFullName] = useState("");
 
   useEffect(() => {
     chosenCity &&
       fetch(
-        `https://api.weatherapi.com/v1/current.json?key=257e679062eb4454969143314231408&q=${chosenCity}`
+        `https://api.weatherapi.com/v1/current.json?key=257e679062eb4454969143314231408&q=${chosenCity.city}`
       )
         .then((res) => {
           if (res.status === 200) {
@@ -34,9 +40,21 @@ export const WeatherProvider: FC<PropsWithChildren> = ({ children }) => {
         .catch((error) => new Error(error));
   }, [chosenCity]);
 
-  const handleCity = useCallback((e: string) => {
-    setChosenCity(e);
-  }, []);
+  useEffect(() => {
+    fetch(`https://api.api-ninjas.com/v1/country?name=${chosenCountry}`, {
+      headers: { "X-Api-Key": "b+41EmgGkxiHHxZ90A+35g==hbnQIUhJz7xE1DO8" },
+    })
+      .then((res) => res.json())
+      .then((result: ICountry[]) => setCountryFullName(result[0].name))
+      .catch((error) => new Error(error));
+  }, [chosenCountry]);
+
+  const handleCity = useCallback(
+    (e: string) => {
+      setChosenCity({ city: e, country: countryFullName });
+    },
+    [countryFullName]
+  );
 
   const handlCountry = useCallback((e: string) => {
     setChosenCountry(e);
@@ -49,8 +67,16 @@ export const WeatherProvider: FC<PropsWithChildren> = ({ children }) => {
       handleCity,
       chosenCountry,
       handlCountry,
+      countryFullName,
     }),
-    [currentWeather, chosenCity, handleCity, chosenCountry, handlCountry]
+    [
+      currentWeather,
+      chosenCity,
+      handleCity,
+      chosenCountry,
+      handlCountry,
+      countryFullName,
+    ]
   );
 
   return (

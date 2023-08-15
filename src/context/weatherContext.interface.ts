@@ -46,10 +46,16 @@ export interface Location {
   localtime: string;
 }
 
+export interface ICity {
+  city: string;
+  country: string;
+}
+
 export interface IWeatherContextProps {
   currentWeather: RootObject | null | undefined;
-  chosenCity: string;
+  chosenCity: ICity | undefined;
   handleCity: (e: string) => void;
   chosenCountry: string;
   handlCountry: (e: string) => void;
+  countryFullName: string;
 }
