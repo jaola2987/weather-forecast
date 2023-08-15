@@ -9,7 +9,7 @@ const WeatherNotAvailable = WeatherBoxWrapper(ErrorMessage);
 export default function BodyForecast() {
   const { currentWeather } = useWeatherProvider();
   return (
-    <div>
+    <>
       {currentWeather ? (
         <WeatherAvailable />
       ) : currentWeather === null ? (
@@ -19,6 +19,6 @@ export default function BodyForecast() {
       ) : (
         <WeatherNotAvailable text={"Choose location"} />
       )}
-    </div>
+    </>
   );
 }

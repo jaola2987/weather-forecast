@@ -5,7 +5,7 @@ export default function CurrentWeather() {
   const { currentWeather } = useWeatherProvider();
 
   return (
-    <div>
+    <>
       <div>
         <img
           src={currentWeather?.current.condition.icon}
@@ -18,6 +18,6 @@ export default function CurrentWeather() {
       </div>
       <div>Humidity: {currentWeather?.current.humidity}%</div>
       <div>Speed of wind is {currentWeather?.current.wind_kph}k/h</div>
-    </div>
+    </>
   );
 }
