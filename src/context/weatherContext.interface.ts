@@ -47,15 +47,19 @@ export interface Location {
 }
 
 export interface ICity {
-  city: string;
-  country: string;
+  city: string | undefined;
+  country: string | undefined;
+}
+
+export interface IChosenCountry {
+  iso2: string;
+  name: string;
 }
 
 export interface IWeatherContextProps {
   currentWeather: RootObject | null | undefined;
   chosenCity: ICity | undefined;
   handleCity: (e: string) => void;
-  chosenCountry: string;
-  handlCountry: (e: string) => void;
-  countryFullName: string;
+  chosenCountry: IChosenCountry | undefined;
+  handlCountry: (e: IChosenCountry) => void;
 }

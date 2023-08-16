@@ -10,9 +10,9 @@ export default function ChooseLocation() {
   const { handleCity, chosenCountry, handlCountry } = useWeatherProvider();
 
   useEffect(() => {
-    chosenCountry &&
+    chosenCountry?.iso2 &&
       fetch(
-        `https://api.api-ninjas.com/v1/city?country=${chosenCountry}&limit=30`,
+        `https://api.api-ninjas.com/v1/city?country=${chosenCountry.iso2}&limit=30`,
         {
           headers: { "X-Api-Key": "b+41EmgGkxiHHxZ90A+35g==hbnQIUhJz7xE1DO8" },
         }
@@ -35,10 +35,18 @@ export default function ChooseLocation() {
     <div>
       <div className={style.wrapper}>
         <form className={style.inputField}>
-          <select onChange={(e) => handlCountry(e.target.value)}>
+          <select
+            onChange={(e) => {
+              const eventvalue = e.target.value.split(",");
+              handlCountry({
+                iso2: eventvalue[0],
+                name: eventvalue[1],
+              });
+            }}
+          >
             {country?.map((el) => {
               return (
-                <option key={el.iso2} value={el.iso2}>
+                <option key={el.iso2} value={[el.iso2, el.name]}>
                   {el.name}
                 </option>
               );
@@ -47,7 +55,7 @@ export default function ChooseLocation() {
         </form>
         <form className={style.inputField}>
           <select
-            disabled={!chosenCountry}
+            disabled={!chosenCountry?.iso2}
             onChange={(e) => handleCity(e.target.value)}
           >
             {city?.map((el, index) => {

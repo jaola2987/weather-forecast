@@ -8,6 +8,7 @@ export default function CurrentWeather() {
     <>
       <div>
         <img
+          height={64}
           src={currentWeather?.current.condition.icon}
           alt={currentWeather?.current.condition.text}
         />

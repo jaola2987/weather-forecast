@@ -9,11 +9,11 @@ import {
   useCallback,
 } from "react";
 import {
+  IChosenCountry,
   ICity,
   IWeatherContextProps,
   RootObject,
 } from "./weatherContext.interface";
-import { ICountry } from "../components/ChooseLocation/chooseLocation.interface";
 
 const WeatherContext = createContext({} as IWeatherContextProps);
 
@@ -22,8 +22,7 @@ export const WeatherProvider: FC<PropsWithChildren> = ({ children }) => {
     RootObject | null | undefined
   >(undefined);
   const [chosenCity, setChosenCity] = useState<ICity>();
-  const [chosenCountry, setChosenCountry] = useState("");
-  const [countryFullName, setCountryFullName] = useState("");
+  const [chosenCountry, setChosenCountry] = useState<IChosenCountry>();
 
   useEffect(() => {
     chosenCity &&
@@ -40,23 +39,14 @@ export const WeatherProvider: FC<PropsWithChildren> = ({ children }) => {
         .catch((error) => new Error(error));
   }, [chosenCity]);
 
-  useEffect(() => {
-    fetch(`https://api.api-ninjas.com/v1/country?name=${chosenCountry}`, {
-      headers: { "X-Api-Key": "b+41EmgGkxiHHxZ90A+35g==hbnQIUhJz7xE1DO8" },
-    })
-      .then((res) => res.json())
-      .then((result: ICountry[]) => setCountryFullName(result[0].name))
-      .catch((error) => new Error(error));
-  }, [chosenCountry]);
-
   const handleCity = useCallback(
     (e: string) => {
-      setChosenCity({ city: e, country: countryFullName });
+      setChosenCity({ city: e, country: chosenCountry?.name });
     },
-    [countryFullName]
+    [chosenCountry]
   );
 
-  const handlCountry = useCallback((e: string) => {
+  const handlCountry = useCallback((e: IChosenCountry) => {
     setChosenCountry(e);
   }, []);
 
@@ -67,16 +57,8 @@ export const WeatherProvider: FC<PropsWithChildren> = ({ children }) => {
       handleCity,
       chosenCountry,
       handlCountry,
-      countryFullName,
     }),
-    [
-      currentWeather,
-      chosenCity,
-      handleCity,
-      chosenCountry,
-      handlCountry,
-      countryFullName,
-    ]
+    [currentWeather, chosenCity, handleCity, chosenCountry, handlCountry]
   );
 
   return (
